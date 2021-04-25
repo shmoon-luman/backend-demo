@@ -14,7 +14,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic"); // 구독 topic 등록시 앞에 붙이는 prefix
         config.setApplicationDestinationPrefixes("/app"); // websocket 메세지 전달시 앞에 붙이는 prefix
+        config.enableStompBrokerRelay("/stomp")
+                .setRelayHost("localhost")
+                .setRelayPort(5672)
+                .setSystemLogin("guest")
+                .setSystemPasscode("guest");
     }
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket")
