@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+</head>
+<body>
+    <div id="output"></div>
+
+    <script>
+        // 초기 WebSocket 연결
+        function initWebSocket() {
+            var stompClient = null;
+            var socket = new SockJS('http://localhost:8080/websocket');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                stompClient.onmessage = message => {
+                    console.log(message);
+                };
+                // stompClient.subscribe('/topic/public', function(res) {
+                //     console.log(JSON.parse(res.body));
+                // });
+            }, function(message) {
+                console.error(message);
+            });
+        }
+
+        $(document).ready(function() {
+            console.log('aaaa');
+            initWebSocket();
+        });
+    </script>
+</body>
+</html>
